@@ -77,6 +77,23 @@ namespace HW1___Binary_Search_Tree
         }
 
         /// <summary>
+        /// Returns the int of the minimum height of a tree if it was balanced.
+        /// minimum formula taken from: https://www.geeksforgeeks.org/relationship-number-nodes-height-binary-tree/
+        /// </summary>
+        /// <returns> (int)Math.Log(BSTsize, 2) + 1 </returns>
+        public int GetMinHeight()
+        {
+            if (rootNode == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return (int)Math.Log(BSTsize, 2) + 1;
+            }
+        }
+
+        /// <summary>
         /// Calls InOrderRecursion with the rootnode as the starting point.
         /// </summary>
         public void ListBST()
