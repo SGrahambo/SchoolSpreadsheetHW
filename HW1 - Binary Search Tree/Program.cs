@@ -31,9 +31,9 @@ namespace HW1___Binary_Search_Tree
         }
 
         /// <summary>
-        /// 
+        /// Prompts for and returns a string input from user
         /// </summary>
-        /// <returns></returns>
+        /// <returns> string userInput </returns>
         static string GetUserInput()
         {
             Console.WriteLine("Please enter a series of number in a single line seperated by spaces.");
@@ -42,7 +42,7 @@ namespace HW1___Binary_Search_Tree
         }
 
         /// <summary>
-        /// Takes a string variable and returns all parsable ints as an array.
+        /// Takes a string variable and returns all distinct parsable ints as an array.
         /// </summary>
         /// <returns> int[] intArray </returns>
         static int[] ConvertToIntArray(string input)
@@ -62,7 +62,7 @@ namespace HW1___Binary_Search_Tree
                 }
             }
 
-            int[] intArray = intList.ToArray();
+            int[] intArray = intList.Distinct().ToArray();
 
             return intArray;
         }
