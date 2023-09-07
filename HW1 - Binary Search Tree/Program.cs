@@ -13,7 +13,10 @@ namespace HW1___Binary_Search_Tree
             while (true)
             {
                 string userInput = GetUserInput();
+                BST bst = new BST();
+
                 Console.WriteLine("The user input is: " + userInput);
+
                 if (userInput == "q") // exits the program
                 {
                     break;
@@ -22,11 +25,12 @@ namespace HW1___Binary_Search_Tree
                     int[] intArray = ConvertToIntArray(userInput);
                     foreach (int i in intArray)
                     {
-                        Console.WriteLine(i);
-
+                        bst.Insert(i);
                     }
+                    Console.WriteLine("BST size: " + bst.GetSize());
+                    bst.ListBST();
                 }
-                Console.WriteLine("-------------------------------------------------------------------------");
+                Console.WriteLine("\n-------------------------------------------------------------------------");
             }            
         }
 
