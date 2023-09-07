@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HW1___Binary_Search_Tree
 {
     /// <summary>
-    /// 
+    /// Node class for BST class.
     /// </summary>
     class Node
     {
@@ -16,7 +16,7 @@ namespace HW1___Binary_Search_Tree
         public Node RightNode;
 
         /// <summary>
-        /// 
+        /// gives value to node.
         /// </summary>
         /// <param name="input"></param>
         public Node(int input)

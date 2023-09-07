@@ -8,6 +8,10 @@ namespace HW1___Binary_Search_Tree
 {
     class Program
     {
+        /// <summary>
+        /// Prompts user for input of integers and inserts each distinct int to a binary search tree and prints it back in order along with other stats.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             while (true)
@@ -27,9 +31,11 @@ namespace HW1___Binary_Search_Tree
                     {
                         bst.Insert(i);
                     }
-                    Console.WriteLine("BST size: " + bst.GetSize());
+                    Console.WriteLine("BST inorder traversal:");
                     bst.ListBST();
-                    Console.WriteLine("\nMinimum height of bst: " + bst.GetMinHeight());
+                    Console.WriteLine("\nBST size: " + bst.GetSize());
+                    Console.WriteLine("Height of BST: " + bst.GetHeight());
+                    Console.WriteLine("Minimum height of bst: " + bst.GetMinHeight());
                 }
                 Console.WriteLine("\n-------------------------------------------------------------------------");
             }            
