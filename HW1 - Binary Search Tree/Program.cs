@@ -29,6 +29,7 @@ namespace HW1___Binary_Search_Tree
                     }
                     Console.WriteLine("BST size: " + bst.GetSize());
                     bst.ListBST();
+                    Console.WriteLine("\nMinimum height of bst: " + bst.GetMinHeight());
                 }
                 Console.WriteLine("\n-------------------------------------------------------------------------");
             }            
