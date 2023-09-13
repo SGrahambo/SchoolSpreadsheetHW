@@ -15,6 +15,14 @@ namespace HW2_WinForms
         public Form1()
         {
             InitializeComponent();
+            RunDistinctIntegers();
         }
+
+        private static void RunDistinctIntegers()
+        {
+
+        }
+
+        
     }
 }
