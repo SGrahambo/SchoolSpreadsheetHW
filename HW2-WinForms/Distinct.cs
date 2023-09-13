@@ -10,7 +10,15 @@ namespace HW2_WinForms
     {
         public static int HashDistinct(List<int> list)
         {
-            return 0;
+            var hashList = new HashSet<int>();
+
+            // adds each item from list to hashset.
+            foreach (int num in list)
+            {
+                hashList.Add(num);
+            }
+
+            return hashList.Count;
         }
 
         public static int O1Distinct(List<int> list)
