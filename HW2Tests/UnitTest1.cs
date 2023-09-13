@@ -6,6 +6,7 @@ namespace HW2_WinForms
 {
     public class Tests
     {
+
         static int[] a0 = { }; // 0 distinct
         static int[] a1 = { 0, 99, 87, 99, 50, 50, 50, 876, 888, 963, 888, 8989, 20000, 0, 1 }; // 10 distinct
 
@@ -16,7 +17,9 @@ namespace HW2_WinForms
         public void Setup()
         {
             
-        }        
+        }
+
+        
 
         [Test]
         public void TestHashDistinct()
