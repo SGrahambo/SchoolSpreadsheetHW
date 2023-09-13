@@ -28,7 +28,21 @@ namespace HW2_WinForms
 
         public static int SortDistinct(List<int> list)
         {
-            return 0;
+            int count = 0; // number of unique values.
+            list.Sort();
+            int check = int.MinValue; // current value to check if current index value in list is different.
+
+            // iterates through sorted list and counts each time the value changes.
+            foreach (int num in list)
+            {
+                if (num != check)
+                {
+                    check = num;
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 }
