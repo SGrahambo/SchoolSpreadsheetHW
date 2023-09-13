@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace HW2_WinForms
 {
+    /// <summary>
+    /// Displays the number of distinct values from a list using various methods.
+    /// </summary>
     public partial class Form1 : Form
     {
         public Form1()
@@ -18,6 +21,9 @@ namespace HW2_WinForms
             RunDistinctIntegers();
         }
 
+        /// <summary>
+        /// Runs the various methods and outputs the results into a textbox.
+        /// </summary>
         private void RunDistinctIntegers()
         {
             int minRange = 0;
@@ -39,6 +45,13 @@ namespace HW2_WinForms
 
         }
 
+        /// <summary>
+        /// Creates a list of random integers
+        /// </summary>
+        /// <param name="length"> number of elements in the list. </param>
+        /// <param name="minRange"> minimum range of random integers. </param>
+        /// <param name="maxRange"> maximum range of random integers. </param>
+        /// <returns> List<int> of random integers. </int></returns>
         public static List<int> CreateRandomList(int length, int minRange, int maxRange)
         {
             Random random = new Random();

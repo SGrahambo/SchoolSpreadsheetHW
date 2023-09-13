@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace HW2_WinForms
 {
+    /// <summary>
+    /// Different methods to return the number of distinct integers in a list.
+    /// </summary>
     public class Distinct
     {
+        /// <summary>
+        /// uses hash list to find distinct number of integers in list.
+        /// </summary>
+        /// <param name="list">input list</param>
+        /// <returns> int hashList.Count </returns>
         public static int HashDistinct(List<int> list)
         {
             var hashList = new HashSet<int>();
@@ -21,6 +29,13 @@ namespace HW2_WinForms
             return hashList.Count;
         }
 
+        /// <summary>
+        /// Iterates through the min and max range of a list and counts each unique value it finds in list.
+        /// </summary>
+        /// <param name="min">min possible value of list.</param>
+        /// <param name="max">max possible value of list.</param>
+        /// <param name="list">input list</param>
+        /// <returns> int number of distinct values. </returns>
         public static int O1Distinct(int min, int max, List<int> list)
         {
             int count = 0; // number of unique values.
@@ -40,6 +55,11 @@ namespace HW2_WinForms
 
         }
 
+        /// <summary>
+        /// Sorts then iterates through list, counting how often the value changes.
+        /// </summary>
+        /// <param name="list">input list</param>
+        /// <returns> int of number of distinct values in list</returns>
         public static int SortDistinct(List<int> list)
         {
             int count = 0; // number of unique values.
