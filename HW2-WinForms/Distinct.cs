@@ -21,9 +21,23 @@ namespace HW2_WinForms
             return hashList.Count;
         }
 
-        public static int O1Distinct(List<int> list)
+        public static int O1Distinct(int min, int max, List<int> list)
         {
-            return 0;
+            int count = 0; // number of unique values.
+            for (int i = min; i <= max; i++)
+            {
+                foreach (int num in list)
+                {
+                    if (num == i)
+                    {
+                        count++;
+                        break;
+                    }
+                }
+            }
+
+            return count;
+
         }
 
         public static int SortDistinct(List<int> list)

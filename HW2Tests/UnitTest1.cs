@@ -31,8 +31,8 @@ namespace HW2_WinForms
         [Test]
         public void TestO1Distinct()
         {
-            Assert.That(Distinct.O1Distinct(list0), Is.EqualTo(0));
-            Assert.That(Distinct.O1Distinct(list1), Is.EqualTo(10));
+            Assert.That(Distinct.O1Distinct(0, 20000, list0), Is.EqualTo(0));
+            Assert.That(Distinct.O1Distinct(0, 20000, list1), Is.EqualTo(10));
         }
 
         [Test]

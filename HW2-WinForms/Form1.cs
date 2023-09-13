@@ -20,9 +20,12 @@ namespace HW2_WinForms
 
         private void RunDistinctIntegers()
         {
-            List<int> theList = CreateRandomList(10000, 0, 20000);
+            int minRange = 0;
+            int maxRange = 20000;
+            int length = 10000;
+            List<int> theList = CreateRandomList(length, minRange, maxRange);
             int hashDistinct = Distinct.HashDistinct(theList);
-            int O1Distinct = Distinct.O1Distinct(theList);
+            int O1Distinct = Distinct.O1Distinct(minRange, maxRange, theList);
             int sortDistinct = Distinct.SortDistinct(theList);
 
             textBox1.AppendText("1. HashSet method: " + hashDistinct);
