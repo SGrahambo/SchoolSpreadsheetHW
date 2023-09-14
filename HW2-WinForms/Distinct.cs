@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="Distinct.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
 
 namespace HW2_WinForms
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Different methods to return the number of distinct integers in a list.
     /// </summary>
@@ -14,8 +18,8 @@ namespace HW2_WinForms
         /// <summary>
         /// uses hash list to find distinct number of integers in list.
         /// </summary>
-        /// <param name="list">input list</param>
-        /// <returns> int hashList.Count </returns>
+        /// <param name="list">input list. </param>
+        /// <returns> int hashList.Count. </returns>
         public static int HashDistinct(List<int> list)
         {
             var hashList = new HashSet<int>();
@@ -34,7 +38,7 @@ namespace HW2_WinForms
         /// </summary>
         /// <param name="min">min possible value of list.</param>
         /// <param name="max">max possible value of list.</param>
-        /// <param name="list">input list</param>
+        /// <param name="list">input list. </param>
         /// <returns> int number of distinct values. </returns>
         public static int O1Distinct(int min, int max, List<int> list)
         {
@@ -52,14 +56,13 @@ namespace HW2_WinForms
             }
 
             return count;
-
         }
 
         /// <summary>
         /// Sorts then iterates through list, counting how often the value changes.
         /// </summary>
-        /// <param name="list">input list</param>
-        /// <returns> int of number of distinct values in list</returns>
+        /// <param name="list">input list. </param>
+        /// <returns> int of number of distinct values in list. </returns>
         public static int SortDistinct(List<int> list)
         {
             int count = 0; // number of unique values.
