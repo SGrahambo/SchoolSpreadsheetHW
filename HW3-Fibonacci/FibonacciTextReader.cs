@@ -7,14 +7,19 @@ namespace HW3_Fibonacci
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Numerics;
     using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    /// prints the fibonacci number of a given input integer.
     /// </summary>
-    internal class FibonacciTextReader : System.IO.TextReader
+    public class FibonacciTextReader : System.IO.TextReader
     {
-        
+        // TODO
+        public static BigInteger Fibonacci(int n)
+        {
+            return 0;
+        }
     }
 }
