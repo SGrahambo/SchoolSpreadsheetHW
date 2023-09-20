@@ -16,10 +16,32 @@ namespace HW3_Fibonacci
     /// </summary>
     public class FibonacciTextReader : System.IO.TextReader
     {
-        // TODO
+        /// <summary>
+        /// Returns the value of the fibonacci from the given integer.
+        /// </summary>
+        /// <param name="n"> input integer to calculate the fibonnaci from. </param>
+        /// <returns> big int of the fibonnaci number. </returns>
         public static BigInteger Fibonacci(int n)
         {
-            return 0;
+            BigInteger a = 0;
+            BigInteger b = 0;
+            BigInteger c = 0;
+
+            for (int i = 1; i <= n; i++)
+            {
+                if (i == 1)
+                {
+                    c = 1;
+                }
+                else
+                {
+                    a = b;
+                    b = c;
+                    c = a + b;
+                }
+            }
+
+            return c;
         }
     }
 }
