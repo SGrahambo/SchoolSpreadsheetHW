@@ -1,4 +1,8 @@
-﻿namespace HW3_Fibonacci
+﻿// <copyright file="Form1.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
+
+namespace HW3_Fibonacci
 {
     using System;
     using System.Collections.Generic;
@@ -11,59 +15,80 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    /// <summary>
+    /// basic notepad functionality.
+    /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form1"/> class.
+        /// </summary>
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
-        private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Saves content from textBox1 to file.
+        /// </summary>
+        private void saveFileToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            Stream myStream;
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            FileStream myStream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
+            // Save file dialogue filter and options.
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.Filter = "txt files (*.txt)|*.txt";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = false;
 
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                if ((myStream = saveFileDialog.OpenFile() as FileStream) != null)
                 {
-                    // Code to write the stream goes here.
+                    var bytes = Encoding.UTF8.GetBytes(this.textBox1.Text);
+                    myStream.Write(bytes, 0, bytes.Length);
                     myStream.Close();
                 }
             }
         }
 
-        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Load content from .txt file to textBox1.
+        /// </summary>
+        private void loadFileToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
+            // Set filter options and filter index.
+            openFileDialog.Filter = "Text Files (.txt)|*.txt";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
+            // Call the ShowDialog method to show the dialog box.
+            openFileDialog.ShowDialog();
 
-                    //Read the contents of the file into a stream
-                    var fileStream = openFileDialog.OpenFile();
+            // Open the selected file to read.
+            System.IO.Stream fileStream = openFileDialog.OpenFile();
+            this.textBox1.Text = new StreamReader(fileStream).ReadToEnd();
+            fileStream.Close();
+        }
 
-                    using (StreamReader reader = new StreamReader(fileStream))
-                    {
-                        fileContent = reader.ReadToEnd();
-                    }
-                }
-            }
-            MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
+        /// <summary>
+        /// Loads first 50 fibonacci numbers.
+        /// </summary>
+        private void load50FibonacciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Loads first 100 fibonacci numbers.
+        /// </summary>
+        private void load100FibonacciToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
