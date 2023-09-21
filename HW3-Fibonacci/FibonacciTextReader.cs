@@ -21,27 +21,30 @@ namespace HW3_Fibonacci
         /// </summary>
         /// <param name="n"> input integer to calculate the fibonnaci from. </param>
         /// <returns> big int of the fibonnaci number. </returns>
-        public static BigInteger Fibonacci(int n)
+        public static List<BigInteger> Fibonacci(int n)
         {
+            List<BigInteger> fibList = new List<BigInteger>();
             BigInteger a = 0;
             BigInteger b = 0;
             BigInteger c = 0;
 
-            for (int i = 1; i <= n; i++)
+            for (int i = 0; i <= n; i++)
             {
                 if (i == 1)
                 {
                     c = 1;
                 }
-                else
+                else if (i > 1)
                 {
                     a = b;
                     b = c;
                     c = a + b;
                 }
+
+                fibList.Add(c);
             }
 
-            return c;
+            return fibList;
         }
     }
 }

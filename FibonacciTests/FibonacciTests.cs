@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using HW3_Fibonacci;
 using System.Numerics;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HW3_Fibonacci.Tests
 {
@@ -24,8 +26,12 @@ namespace HW3_Fibonacci.Tests
         [TestCase(100, "354224848179261915075")]
         public void FibonacciTest(int a, string b)
         {
-            BigInteger BigInt = BigInteger.Parse(b);
-            Assert.That(FibonacciTextReader.Fibonacci(a), Is.EqualTo(BigInt));
+            BigInteger bigInt = BigInteger.Parse(b);
+            //List<BigInteger> last = FibonacciTextReader.Fibonacci(a);
+            //List<BigInteger> fibList = new List<BigInteger>(FibonacciTextReader.Fibonacci(a));
+
+            //Assert.That(FibonacciTextReader.Fibonacci(a), Is.EqualTo(bigInt));
+            Assert.That(FibonacciTextReader.Fibonacci(a).LastOrDefault(), Is.EqualTo(bigInt));
         }
     }
 }

@@ -63,6 +63,7 @@ namespace HW3_Fibonacci
 
             // Set filter options and filter index.
             openFileDialog.Filter = "Text Files (.txt)|*.txt";
+            openFileDialog.DefaultExt = "txt";
             openFileDialog.FilterIndex = 1;
             openFileDialog.Multiselect = false;
 
