@@ -27,10 +27,6 @@ namespace HW3_Fibonacci.Tests
         public void FibonacciTest(int a, string b)
         {
             BigInteger bigInt = BigInteger.Parse(b);
-            //List<BigInteger> last = FibonacciTextReader.Fibonacci(a);
-            //List<BigInteger> fibList = new List<BigInteger>(FibonacciTextReader.Fibonacci(a));
-
-            //Assert.That(FibonacciTextReader.Fibonacci(a), Is.EqualTo(bigInt));
             Assert.That(FibonacciTextReader.Fibonacci(a).LastOrDefault(), Is.EqualTo(bigInt));
         }
     }

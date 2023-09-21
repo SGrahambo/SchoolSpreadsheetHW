@@ -81,7 +81,8 @@ namespace HW3_Fibonacci
         /// </summary>
         private void load50FibonacciToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO
+            FibonacciTextReader ftr = new FibonacciTextReader(50);
+            this.textBox1.Text = ftr.ReadToEnd();
         }
 
         /// <summary>
@@ -89,7 +90,8 @@ namespace HW3_Fibonacci
         /// </summary>
         private void load100FibonacciToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO
+            FibonacciTextReader ftr = new FibonacciTextReader(100);
+            this.textBox1.Text = ftr.ReadToEnd();
         }
     }
 }
