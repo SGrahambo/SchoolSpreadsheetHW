@@ -18,7 +18,7 @@
         public Form1()
         {
             this.InitializeComponent();
-            this.InitializeDataGrid(28, 26);
+            this.InitializeDataGrid(50, 50);
         }
 
         private void InitializeDataGrid(int columns, int rows)
@@ -27,22 +27,24 @@
             this.CreateRows(rows);
         }
 
+        /// <summary>
+        /// Creates input number of columns from A to Z, then from AA to ZZ (max 702 columns).
+        /// </summary>
+        /// <param name="columns"> the number of columns to create. </param>
         private void CreateColumns(int columns)
         {
             this.dataGridView1.Columns.Clear();
-
-            // Columns creation. I really wanted to have more than 26 columns. For now at least.
-            int columnCount = columns; // number of columns to generate.
-            int columnFillWeight = 100;
             int maxColumnCount = 702; // 702 = "ZZ"
+            int columnFillWeight = 100;
 
             // prevents number of columns from going over the fillwidthlimit (65530) and going past column "ZZ"
-            if (columnCount > maxColumnCount)
+            if (columns > maxColumnCount)
             {
-                columnCount = maxColumnCount;
+                columns = maxColumnCount;
             }
 
-            if (columnCount > 655)
+            // (when large number of columns) smaller columns to acomodate max datagridview size.
+            if (columns > 655)
             {
                 columnFillWeight = 93;
             }
@@ -52,9 +54,9 @@
             char columnName2 = '\0';
 
             int cc = 0; // column counter
-            while (cc < columnCount && (cc < maxColumnCount))
+            while (cc < columns && (cc < maxColumnCount))
             {
-                while ((cc < columnCount) && (columnName1 <= 'Z') && (cc < maxColumnCount))
+                while ((cc < columns) && (columnName1 <= 'Z') && (cc < maxColumnCount))
                 {
                     this.dataGridView1.Columns.Add(columnName2.ToString() + columnName1.ToString(), columnName2.ToString() + columnName1.ToString());
                     this.dataGridView1.Columns[cc].FillWeight = columnFillWeight;
@@ -84,7 +86,20 @@
 
         private void CreateRows(int rows)
         {
-            return;
+            this.dataGridView1.Rows.Clear();
+            if (rows <= 1)
+            {
+                rows = 1;
+            } else
+            {
+                this.dataGridView1.Rows.Add(rows-1);
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                int rowName = i + 1;
+                this.dataGridView1.Rows[i].HeaderCell.Value = rowName.ToString();
+            }
         }
     }
 }
