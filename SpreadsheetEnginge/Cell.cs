@@ -17,8 +17,8 @@ namespace SpreadsheetEngine
     /// </summary>
     public abstract class Cell : INotifyPropertyChanged
     {
-        protected string text = string.Empty;
-        protected string value = string.Empty;
+        private string text = string.Empty;
+        private string value = string.Empty;
         private readonly int columnIndex;
         private readonly int rowIndex;
 
