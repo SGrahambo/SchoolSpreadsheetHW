@@ -9,22 +9,32 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+    using SpreadsheetEngine;
 
     public partial class Form1 : Form
     {
+        private Spreadsheet spreadsheet = new Spreadsheet(100, 50);
+        private Cell[,] cells;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// </summary>
         public Form1()
         {
             this.InitializeComponent();
-            this.InitializeDataGrid(50, 50);
+            //this.InitializeDataGrid(50, 26);
         }
 
         private void InitializeDataGrid(int columns, int rows)
         {
             this.CreateColumns(columns);
             this.CreateRows(rows);
+        }
+
+        private void ClearDataGrid()
+        {
+            this.dataGridView1.Columns.Clear();
+            this.dataGridView1.Rows.Clear();
         }
 
         /// <summary>
@@ -99,6 +109,31 @@
             {
                 int rowName = i + 1;
                 this.dataGridView1.Rows[i].HeaderCell.Value = rowName.ToString();
+            }
+        }
+
+        private void DemoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //this.ClearDataGrid();
+            //Spreadsheet spreadsheet = new Spreadsheet(26, 50);
+            //this.InitializeDataGrid(this.spreadsheet.ColumnCount, this.spreadsheet.RowCount);
+            this.spreadsheet.Demo();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.InitializeDataGrid(this.spreadsheet.ColumnCount, this.spreadsheet.RowCount);
+            this.spreadsheet.CellPropertyChanged += this.Form1PropertyChanged;
+        }
+
+        // subscribes to propertychanged of the cell class
+        private void Form1PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Cell cell = (Cell)sender;
+
+            if (e.PropertyName == "Value")
+            {
+                this.dataGridView1.Rows[cell.ColumnIndex].Cells[cell.RowIndex].Value = cell.Value;
             }
         }
     }

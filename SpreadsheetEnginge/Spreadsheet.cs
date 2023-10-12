@@ -2,7 +2,7 @@
 // Copyright (c) Stephen Graham - 011706998. All rights reserved.
 // </copyright>
 
-namespace SpreadsheetEnginge
+namespace SpreadsheetEngine
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +14,5 @@ namespace SpreadsheetEnginge
 
     public class Spreadsheet
     {
-
     }
 }
