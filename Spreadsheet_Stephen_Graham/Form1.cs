@@ -1,4 +1,8 @@
-﻿namespace Spreadsheet_Stephen_Graham
+﻿// <copyright file="Form1.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
+
+namespace Spreadsheet_Stephen_Graham
 {
     using System;
     using System.Collections.Generic;
@@ -11,10 +15,12 @@
     using System.Windows.Forms;
     using SpreadsheetEngine;
 
+    /// <summary>
+    /// Spreadsheet application GUI.
+    /// </summary>
     public partial class Form1 : Form
     {
         private Spreadsheet spreadsheet = new Spreadsheet(100, 50);
-        private Cell[,] cells;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
@@ -22,7 +28,7 @@
         public Form1()
         {
             this.InitializeComponent();
-            //this.InitializeDataGrid(50, 26);
+            this.InitializeDataGrid(50, 26);
         }
 
         private void InitializeDataGrid(int columns, int rows)
@@ -100,9 +106,10 @@
             if (rows <= 1)
             {
                 rows = 1;
-            } else
+            }
+            else
             {
-                this.dataGridView1.Rows.Add(rows-1);
+                this.dataGridView1.Rows.Add(rows - 1);
             }
 
             for (int i = 0; i < rows; i++)
@@ -114,9 +121,6 @@
 
         private void DemoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //this.ClearDataGrid();
-            //Spreadsheet spreadsheet = new Spreadsheet(26, 50);
-            //this.InitializeDataGrid(this.spreadsheet.ColumnCount, this.spreadsheet.RowCount);
             this.spreadsheet.Demo();
         }
 

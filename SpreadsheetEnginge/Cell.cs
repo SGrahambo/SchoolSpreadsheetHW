@@ -19,8 +19,6 @@ namespace SpreadsheetEngine
     {
         private string text = string.Empty;
         private string value = string.Empty;
-        private readonly int columnIndex;
-        private readonly int rowIndex;
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
