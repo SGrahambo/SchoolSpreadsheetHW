@@ -1,4 +1,8 @@
-﻿namespace SpreadsheetEngine
+﻿// <copyright file="ExpressionTree.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
+
+namespace SpreadsheetEngine
 {
     using System;
     using System.Collections.Generic;

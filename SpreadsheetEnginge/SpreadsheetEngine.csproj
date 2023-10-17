@@ -43,10 +43,14 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellNonAbstract.cs" />
+    <Compile Include="ConstantNode.cs" />
     <Compile Include="ExpressionTree.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="OperatorNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spreadsheet.cs" />
+    <Compile Include="VariableNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
