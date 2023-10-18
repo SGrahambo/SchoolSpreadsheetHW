@@ -39,5 +39,4 @@ namespace SpreadsheetEngine
         /// </summary>
         public double Value { get; set; }
     }
-
 }

@@ -77,18 +77,27 @@ namespace ExpressionTreeApp
 
         private static string CurrentExpression()
         {
-            // TODO
-            return string.Empty;
+            return expressionTree.GetExpression();
         }
 
         private static void ChangeExpression()
         {
-            // TODO
+            Console.Write("Enter a new expression: ");
+            expressionTree = new ExpressionTree(Console.ReadLine());
         }
 
         private static void AddVariable()
         {
-            // TODO
+            string variable;
+            double value;
+
+            Console.Write("Enter variable name: ");
+            variable = Console.ReadLine();
+
+            Console.Write("Enter variable value: ");
+            value = Convert.ToDouble(Console.ReadLine());
+
+            expressionTree.SetVariable(variable, value);
         }
     }
 }

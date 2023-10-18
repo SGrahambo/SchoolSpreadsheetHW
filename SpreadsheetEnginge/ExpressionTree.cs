@@ -46,32 +46,6 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Creates a new variable name and value in the variable dictionary.
-        /// </summary>
-        /// <param name="variableName"> variable name. </param>
-        /// <param name="variableValue"> variable value. </param>
-        public void SetVariable(string variableName, double variableValue)
-        {
-            if (variableDict.ContainsKey(variableName))
-            {
-                variableDict[variableName] = variableValue;
-            }
-            else
-            {
-                variableDict.Add(variableName, variableValue);
-            }
-        }
-
-        /// <summary>
-        /// Calculates the value of the expression tree.
-        /// </summary>
-        /// <returns> double of the expression results. </returns>
-        public double Evaluate()
-        {
-            return Evaluate(this.root);
-        }
-
-        /// <summary>
         /// Modified from in class exercise code.
         /// Goes through the tree and performs the necessart operations on each node.
         /// </summary>
@@ -98,6 +72,32 @@ namespace SpreadsheetEngine
             }
 
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Creates a new variable name and value in the variable dictionary.
+        /// </summary>
+        /// <param name="variableName"> variable name. </param>
+        /// <param name="variableValue"> variable value. </param>
+        public void SetVariable(string variableName, double variableValue)
+        {
+            if (variableDict.ContainsKey(variableName))
+            {
+                variableDict[variableName] = variableValue;
+            }
+            else
+            {
+                variableDict.Add(variableName, variableValue);
+            }
+        }
+
+        /// <summary>
+        /// Calculates the value of the expression tree.
+        /// </summary>
+        /// <returns> double of the expression results. </returns>
+        public double Evaluate()
+        {
+            return Evaluate(this.root);
         }
 
         /// <summary>
@@ -244,11 +244,5 @@ namespace SpreadsheetEngine
                 }
             }
         }
-
-        public List<Node> GetNodes()
-        {
-            return this.nodeList;
-        }
     }
-
 }

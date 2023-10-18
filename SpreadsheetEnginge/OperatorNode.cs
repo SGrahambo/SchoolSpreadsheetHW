@@ -15,7 +15,7 @@ namespace SpreadsheetEngine
     /// </summary>
     public class OperatorNode : Node
     {
-        //private List<char> validOperators = new List<char> { '+', '-', '*', '/' };
+        // private List<char> validOperators = new List<char> { '+', '-', '*', '/' };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperatorNode"/> class.
@@ -36,10 +36,10 @@ namespace SpreadsheetEngine
             this.Precidence = 1;
         }
 
-        //public List<char> ValidOperators()
-        //{
+        // public List<char> ValidOperators()
+        // {
         //    return this.validOperators;
-        //}
+        // }
 
         /// <summary>
         /// Gets or sets the operator node.

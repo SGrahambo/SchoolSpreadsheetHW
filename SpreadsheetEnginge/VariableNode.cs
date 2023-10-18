@@ -38,5 +38,4 @@ namespace SpreadsheetEngine
         /// </summary>
         public string Name { get; set; }
     }
-
 }
