@@ -61,5 +61,27 @@ namespace SpreadsheetEngine.Tests
             this.expressionTree = new ExpressionTree(s);
             Assert.AreEqual(d, this.expressionTree.Evaluate());
         }
+
+        [Test]
+        public void TestVariables()
+        {
+            this.expressionTree = new ExpressionTree("This+better+work");
+            this.expressionTree.SetVariable("This", 1);
+            this.expressionTree.SetVariable("better", 2);
+            this.expressionTree.SetVariable("work", 3);
+
+            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(6));
+        }
+
+        [Test]
+        public void TestVariablesAndConstants()
+        {
+            this.expressionTree = new ExpressionTree("10-This-better--1-work");
+            this.expressionTree.SetVariable("This", 1);
+            this.expressionTree.SetVariable("better", 2);
+            this.expressionTree.SetVariable("work", 3);
+
+            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(5));
+        }
     }
 }
