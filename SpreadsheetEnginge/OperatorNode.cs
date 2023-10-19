@@ -15,7 +15,7 @@ namespace SpreadsheetEngine
     /// </summary>
     public class OperatorNode : Node
     {
-        // private List<char> validOperators = new List<char> { '+', '-', '*', '/' };
+        private static List<char> validOperators = new List<char> { '+', '-', '*', '/' };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OperatorNode"/> class.
@@ -36,15 +36,25 @@ namespace SpreadsheetEngine
             this.Precidence = 1;
         }
 
-        // public List<char> ValidOperators()
-        // {
-        //    return this.validOperators;
-        // }
-
         /// <summary>
         /// Gets or sets the operator node.
         /// </summary>
         public string Operator { get; set; }
+
+        /// <summary>
+        /// Returns true if operator is from valid list.
+        /// </summary>
+        /// <param name="c"> Char of operator.</param>
+        /// <returns> bool. </returns>
+        public static bool ValidOperators(char c)
+        {
+            if (validOperators.Contains(c))
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// The operation to do to the nodes children, depending upon the character input.

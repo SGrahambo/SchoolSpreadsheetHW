@@ -16,7 +16,6 @@ namespace SpreadsheetEngine
     public class ExpressionTree
     {
         private static Dictionary<string, double> variableDict = new Dictionary<string, double>();
-        private readonly List<char> validOperators = new List<char> { '+', '-', '*', '/' };
 
         private string expression;
         private Node root;
@@ -122,10 +121,10 @@ namespace SpreadsheetEngine
                 int a = i; // beginning of substring.
 
                 // Creates an OperatorNode if the current char is an operator.
-                if (this.validOperators.Contains(s[i]))
+                if (OperatorNode.ValidOperators(s[i]))
                 {
                     // if operator is a '-' and the previous char is an operator, it treats it like part of a number.
-                    if (s[i] == '-' && (i == 0 || this.validOperators.Contains(s[i - 1])))
+                    if (s[i] == '-' && (i == 0 || OperatorNode.ValidOperators(s[i - 1])))
                     {
                         i++;
                     }
@@ -149,7 +148,7 @@ namespace SpreadsheetEngine
                 if (double.TryParse(s[i].ToString(), out number))
                 {
                     // Sets i to index before next operator.
-                    while (i < s.Length - 1 && !this.validOperators.Contains(s[i + 1]))
+                    while (i < s.Length - 1 && !OperatorNode.ValidOperators(s[i + 1]))
                     {
                         i++;
                         continue;
@@ -165,7 +164,7 @@ namespace SpreadsheetEngine
                 else
                 {
                     // substring before next operator added to new VariableNode.
-                    while (i < s.Length - 1 && !this.validOperators.Contains(s[i + 1]))
+                    while (i < s.Length - 1 && !OperatorNode.ValidOperators(s[i + 1]))
                     {
                         i++;
                         continue;
