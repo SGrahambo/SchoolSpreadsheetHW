@@ -4,12 +4,6 @@
 
 namespace SpreadsheetEngine
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Node with a constant value.
     /// </summary>
@@ -24,6 +18,7 @@ namespace SpreadsheetEngine
         {
             this.Value = value;
             this.Precidence = 0;
+            this.IsOperand = true;
         }
 
         /// <summary>
@@ -32,6 +27,7 @@ namespace SpreadsheetEngine
         public ConstantNode()
         {
             this.Precidence = 0;
+            this.IsOperand = true;
         }
 
         /// <summary>

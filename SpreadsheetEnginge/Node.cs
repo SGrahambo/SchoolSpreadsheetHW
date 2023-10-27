@@ -4,12 +4,6 @@
 
 namespace SpreadsheetEngine
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// abstract node for expression tree.
     /// </summary>
@@ -36,7 +30,7 @@ namespace SpreadsheetEngine
         public bool IsOperand { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether if node contains a parenthesis.
+        /// Gets or sets a value indicating whether node is an openfaced "(" parenthesis.
         /// </summary>
         public bool IsParenthesis { get; set; }
     }
