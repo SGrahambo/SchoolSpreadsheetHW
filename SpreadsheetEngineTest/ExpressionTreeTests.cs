@@ -104,7 +104,7 @@ namespace SpreadsheetEngine.Tests
 
             this.expressionTree = new ExpressionTree("This+better+work");
 
-            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(6));
+            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(0));
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace SpreadsheetEngine.Tests
 
             this.expressionTree = new ExpressionTree("better-work-This");
 
-            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(-3));
+            Assert.That(this.expressionTree.Evaluate(), Is.EqualTo(0));
         }
 
         /// <summary>

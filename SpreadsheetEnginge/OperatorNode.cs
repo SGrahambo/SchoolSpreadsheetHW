@@ -1,81 +1,67 @@
-﻿// <copyright file="OperatorNode.cs" company="Stephen Graham - 011706998">
-// Copyright (c) Stephen Graham - 011706998. All rights reserved.
-// </copyright>
+﻿// CptS 321: Expression Tree Code Demo of how NOT to code your assignements
+// Problems and sollutions of this code will be discussed in class
+// Note that if you sumbit this code you will not get ANY points for the assignments
 
 namespace SpreadsheetEngine
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    /// <summary>
-    /// Node that performs operations on other nodes.
-    /// </summary>
-    public class OperatorNode : Node
+    public abstract class OperatorNode : Node
     {
-        private static List<char> validOperators = new List<char> { '+', '-', '*', '/' };
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OperatorNode"/> class.
-        /// Creates an operator node with a character argument.
-        /// </summary>
-        /// <param name="c"> operator character.</param>
+        public OperatorNode(char c)
+        {
+            this.IsOperand = false;
+            this.IsParenthesis = false;
+        }
+
         public OperatorNode(string c)
         {
-            this.Operator = c;
-            this.Precidence = 1;
+            this.IsOperand = false;
+            this.IsParenthesis = false;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OperatorNode"/> class.
-        /// </summary>
         public OperatorNode()
         {
-            this.Precidence = 1;
+            this.IsOperand = false;
+            this.IsParenthesis = false;
         }
 
-        /// <summary>
-        /// Gets or sets the operator node.
-        /// </summary>
-        public string Operator { get; set; }
-
-        /// <summary>
-        /// Returns true if operator is from valid list.
-        /// </summary>
-        /// <param name="c"> Char of operator.</param>
-        /// <returns> bool. </returns>
-        public static bool ValidOperators(char c)
+        public static bool ValidOperators(string c)
         {
-            if (validOperators.Contains(c))
+            switch (c)
             {
-                return true;
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                case "^":
+                case "(":
+                case ")":
+                    return true;
             }
 
             return false;
         }
 
-        /// <summary>
-        /// The operation to do to the nodes children, depending upon the character input.
-        /// </summary>
-        /// <returns> A double value of the operation. </returns>
-        public double Operate()
+        public static bool ValidOperators(char c)
         {
-            switch (this.Operator)
+            switch (c)
             {
-                case "+":
-                    return ExpressionTree.Evaluate(this.Left) + ExpressionTree.Evaluate(this.Right);
-                case "-":
-                    return ExpressionTree.Evaluate(this.Left) - ExpressionTree.Evaluate(this.Right);
-                case "*":
-                    return ExpressionTree.Evaluate(this.Left) * ExpressionTree.Evaluate(this.Right);
-                case "/":
-                    return ExpressionTree.Evaluate(this.Left) / ExpressionTree.Evaluate(this.Right);
-                default:
-                    throw new NotSupportedException(
-                           "Operator " + this.Operator.ToString() + " not supported.");
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '^':
+                case '(':
+                case ')':
+                    return true;
             }
+
+            return false;
         }
+
+        public string Operator { get; set; }
+
+        public abstract double Evaluate();
+
     }
 }

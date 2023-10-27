@@ -29,7 +29,7 @@ namespace ExpressionTreeApp
                     choice = Convert.ToInt32(Console.ReadLine());
                     MenuSwitch(choice);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Please try again.");
                     continue;
