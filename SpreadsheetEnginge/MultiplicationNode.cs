@@ -1,21 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="MultiplicationNode.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
 
 namespace SpreadsheetEngine
 {
-    class MultiplicationNode : OperatorNode
+    /// <summary>
+    /// multiplication operator node.
+    /// </summary>
+    internal class MultiplicationNode : OperatorNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultiplicationNode"/> class.
+        /// </summary>
         public MultiplicationNode()
         {
             this.Precidence = 2;
         }
 
+        /// <inheritdoc/>
         public override double Evaluate()
         {
-            return Expression.Evaluate(this.Left) * Expression.Evaluate(this.Right);
+            return ExpressionTree.Evaluate(this.Left) * ExpressionTree.Evaluate(this.Right);
         }
     }
 }

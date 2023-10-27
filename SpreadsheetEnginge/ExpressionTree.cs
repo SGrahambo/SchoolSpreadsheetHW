@@ -6,9 +6,6 @@ namespace SpreadsheetEngine
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Creates and expression tree from a string and evaluates the expression into a double.
@@ -19,8 +16,9 @@ namespace SpreadsheetEngine
 
         private string expression;
         private Node root;
-        private int maxPrecidence = 0;
         private List<Node> nodeList = new List<Node>();
+        private List<Node> postFixList = new List<Node>();
+        private Stack<Node> nodeStack = new Stack<Node>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
@@ -46,7 +44,7 @@ namespace SpreadsheetEngine
 
         /// <summary>
         /// Modified from in class exercise code.
-        /// Goes through the tree and performs the necessart operations on each node.
+        /// Goes through the tree and performs the necessart operations on each one.
         /// </summary>
         /// <param name="node"> The root node of the expression tree. </param>
         /// <returns> the value of the node. </returns>
@@ -67,7 +65,7 @@ namespace SpreadsheetEngine
             OperatorNode operatorNode = node as OperatorNode;
             if (operatorNode != null)
             {
-                return operatorNode.Operate();
+                return operatorNode.Evaluate();
             }
 
             throw new NotSupportedException();
@@ -114,6 +112,8 @@ namespace SpreadsheetEngine
         /// <param name="s"> expression string. </param>
         private void CreateNodeList(string s)
         {
+            this.CheckParenthesisBalance(s);
+
             int i = 0;
 
             while (i <= s.Length - 1)
@@ -121,23 +121,43 @@ namespace SpreadsheetEngine
                 int a = i; // beginning of substring.
 
                 // Creates an OperatorNode if the current char is an operator.
-                if (OperatorNode.ValidOperators(s[i]))
+                if (OperatorNode.ValidOperator(s[i]))
                 {
                     // if operator is a '-' and the previous char is an operator, it treats it like part of a number.
-                    if (s[i] == '-' && (i == 0 || OperatorNode.ValidOperators(s[i - 1])))
+                    if (s[i] == '-' && (i == 0 || OperatorNode.ValidOperator(s[i - 1])))
                     {
                         i++;
                     }
-                    else
+                    else if (s[i] == ')')
                     {
-                        Node node = new OperatorNode(s[i].ToString());
-                        this.nodeList.Add(node);
-                        i++;
-                        if (node.Precidence > this.maxPrecidence)
+                        while (this.nodeStack.Peek().IsParenthesis == false)
                         {
-                            this.maxPrecidence = node.Precidence;
+                            this.postFixList.Add(this.nodeStack.Pop());
                         }
 
+                        this.nodeStack.Pop();
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        // Creation of operator nodes.
+                        Node node = OperatorNodeFactory.CreateOperatorNode(s[i]);
+                        if (this.nodeStack.Count == 0 || node.IsParenthesis || node.Precidence > this.nodeStack.Peek().Precidence)
+                        {
+                            this.nodeStack.Push(node);
+                        }
+                        else
+                        {
+                            while (this.nodeStack.Count > 0 && node.Precidence <= this.nodeStack.Peek().Precidence)
+                            {
+                                this.postFixList.Add(this.nodeStack.Pop());
+                            }
+
+                            this.nodeStack.Push(node);
+                        }
+
+                        i++;
                         continue;
                     }
                 }
@@ -148,7 +168,7 @@ namespace SpreadsheetEngine
                 if (double.TryParse(s[i].ToString(), out number))
                 {
                     // Sets i to index before next operator.
-                    while (i < s.Length - 1 && !OperatorNode.ValidOperators(s[i + 1]))
+                    while (i < s.Length - 1 && !OperatorNode.ValidOperator(s[i + 1]))
                     {
                         i++;
                         continue;
@@ -157,14 +177,15 @@ namespace SpreadsheetEngine
                     double.TryParse(s.Substring(a, i + 1 - a), out number);
                     ConstantNode node = new ConstantNode();
                     node.Value = number;
-                    this.nodeList.Add(node);
+                    this.postFixList.Add(node);
+
                     i++;
                     continue;
                 }
                 else
                 {
                     // substring before next operator added to new VariableNode.
-                    while (i < s.Length - 1 && !OperatorNode.ValidOperators(s[i + 1]))
+                    while (i < s.Length - 1 && !OperatorNode.ValidOperator(s[i + 1]))
                     {
                         i++;
                         continue;
@@ -177,71 +198,69 @@ namespace SpreadsheetEngine
                         variableDict.Add(node.Name, 0);
                     }
 
-                    this.nodeList.Add(node);
+                    this.postFixList.Add(node);
                     i++;
                 }
+            }
+
+            while (this.nodeStack.Count != 0)
+            {
+                this.postFixList.Add(this.nodeStack.Pop());
+            }
+        }
+
+        /// <summary>
+        /// Checks if string has balanced parenthesis. Returns an exception if not.
+        /// </summary>
+        /// <param name="s"> string of expression. </param>
+        private void CheckParenthesisBalance(string s)
+        {
+            // checks if parenthesis are balanced
+            int parBalance = 0;
+            foreach (char c in s)
+            {
+                if (parBalance >= 0)
+                {
+                    if (c == '(')
+                    {
+                        parBalance++;
+                    }
+                    else if (c == ')')
+                    {
+                        parBalance--;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (parBalance != 0)
+            {
+                Console.WriteLine("Paranthesis are unbalanced.");
+                throw new Exception();
             }
         }
 
         private void CreateTree()
         {
-            List<Node> reverseList = this.nodeList;
-            reverseList.Reverse();
-            for (int i = this.maxPrecidence; i >= 0; i--)
+            // postfix tree
+            foreach (Node node in this.postFixList)
             {
-                foreach (Node node in reverseList)
+                if (node.IsOperand)
                 {
-                    if (node.Precidence == i)
-                    {
-                        if (this.root == null)
-                        {
-                            this.root = node;
-                        }
-                        else
-                        {
-                            this.AddToTree(this.root, node);
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    this.nodeStack.Push(node);
+                }
+                else
+                {
+                    node.Right = this.nodeStack.Pop();
+                    node.Left = this.nodeStack.Pop();
+                    this.nodeStack.Push(node);
                 }
             }
-        }
 
-        private void AddToTree(Node pointer, Node node)
-        {
-            if (node.Precidence < pointer.Precidence)
-            {
-                if (pointer.Right == null)
-                {
-                    pointer.Right = node;
-                }
-                else if (pointer.Left == null)
-                {
-                    pointer.Left = node;
-                }
-                else if (pointer.Right.Precidence > node.Precidence)
-                {
-                    this.AddToTree(pointer.Right, node);
-                }
-                else
-                {
-                    this.AddToTree(pointer.Left, node);
-                }
-            }
-            else
-            {
-                if (pointer.Left == null)
-                {
-                    pointer.Left = node;
-                }
-                else
-                {
-                    this.AddToTree(pointer.Left, node);
-                }
-            }
+            this.root = this.nodeStack.Pop();
         }
     }
 }

@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="AdditionNode.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
 
 namespace SpreadsheetEngine
 {
-    class AdditionNode : OperatorNode
+    /// <summary>
+    /// addition operator node.
+    /// </summary>
+    internal class AdditionNode : OperatorNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdditionNode"/> class.
+        /// </summary>
         public AdditionNode()
-            : base("+")
         {
             this.Precidence = 1;
         }
 
+        /// <inheritdoc/>
         public override double Evaluate()
         {
-            return Expression.Evaluate(this.Left) + Expression.Evaluate(this.Right);
+            return ExpressionTree.Evaluate(this.Left) + ExpressionTree.Evaluate(this.Right);
         }
     }
 }

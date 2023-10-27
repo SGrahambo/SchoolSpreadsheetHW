@@ -56,7 +56,7 @@
     <Compile Include="ParenthesisNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spreadsheet.cs" />
-    <Compile Include="SubractionNode.cs" />
+    <Compile Include="SubtractionNode.cs" />
     <Compile Include="VariableNode.cs" />
   </ItemGroup>
   <ItemGroup>

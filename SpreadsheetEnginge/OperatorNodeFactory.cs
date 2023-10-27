@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="OperatorNodeFactory.cs" company="Stephen Graham - 011706998">
+// Copyright (c) Stephen Graham - 011706998. All rights reserved.
+// </copyright>
 
 namespace SpreadsheetEngine
 {
+    using System;
+
+    /// <summary>
+    /// Creates different operatornodes based on the input operator string.
+    /// </summary>
     internal class OperatorNodeFactory
     {
-        public static OperatorNode CreateOperatorNode(char op)
+        /// <summary>
+        /// Creates approriate operator nodes based on char input.
+        /// </summary>
+        /// <param name="oper"> char of operator. </param>
+        /// <returns> a node inheriting OperatorNode. </returns>
+        public static OperatorNode CreateOperatorNode(char oper)
         {
-            switch (op)
+            switch (oper)
             {
                 case '+':
                     AdditionNode add = new AdditionNode();
                     return add;
                 case '-':
-                    SubractionNode sub = new SubractionNode();
+                    SubtractionNode sub = new SubtractionNode();
                     return sub;
                 case '*':
                     MultiplicationNode mul = new MultiplicationNode();
