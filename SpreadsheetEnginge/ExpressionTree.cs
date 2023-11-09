@@ -191,6 +191,8 @@ namespace SpreadsheetEngine
                         continue;
                     }
 
+                    // creates variable node.
+                    // TODO: throw exception if variable has no value.
                     VariableNode node = new VariableNode();
                     node.Name = s.Substring(a, i + 1 - a);
                     if (variableDict.ContainsKey(node.Name) == false)

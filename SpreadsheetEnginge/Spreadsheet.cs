@@ -154,6 +154,7 @@ namespace SpreadsheetEngine
 
             // I think this informs other referencing cells that this cells value was changed if I follow the logic right.
             this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
+            this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Text"));
         }
 
         /// <summary>

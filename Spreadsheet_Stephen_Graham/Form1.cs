@@ -140,5 +140,23 @@ namespace Spreadsheet_Stephen_Graham
                 this.dataGridView1.Rows[cell.ColumnIndex].Cells[cell.RowIndex].Value = cell.Value;
             }
         }
+
+        private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Text;
+        }
+
+        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            {
+                this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Value;
+            }
+            else
+            {
+                this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Text = string.Empty;
+            }
+        }
     }
 }
