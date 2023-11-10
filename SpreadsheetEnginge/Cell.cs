@@ -19,6 +19,7 @@ namespace SpreadsheetEngine
     {
         private string text = string.Empty;
         private string value = string.Empty;
+        private List<Cell> dependents = new List<Cell>();
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,6 +40,18 @@ namespace SpreadsheetEngine
         {
             get;
             set;
+        }
+
+        public string CellName
+        {
+            get
+            {
+                string name = string.Empty;
+                char column = (char)('A' + this.RowIndex);
+                int row = this.ColumnIndex + 1;
+                name = column + row.ToString();
+                return name;
+            }
         }
 
         /// <summary>
@@ -84,12 +97,56 @@ namespace SpreadsheetEngine
             }
         }
 
+        public List<Cell> Dependents
+        {
+            get { return this.dependents; }
+        }
+
+        public void AddDependent(Cell dependentCell)
+        {
+            if (!this.dependents.Contains(dependentCell))
+            {
+                this.dependents.Add(dependentCell);
+            }
+        }
+
+        public void RemoveDependent(Cell dependentCell)
+        {
+            this.dependents.Remove(dependentCell);
+        }
+
         /// <summary>
         /// broadcasts the propertyChanged event with the properies name.
         /// </summary>
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Evaluate(Dictionary<Cell, bool> visitedCells = null)
+        {
+            if (visitedCells == null)
+            {
+                visitedCells = new Dictionary<Cell, bool>();
+            }
+
+            // Check for circular references
+            if (visitedCells.ContainsKey(this))
+            {
+                // Circular reference detected, set value to error
+                this.Value = "ERROR: Circular Reference";
+                return;
+            }
+
+            visitedCells[this] = true;
+
+            // Notify dependents about the change
+            foreach (Cell dependentCell in this.Dependents)
+            {
+                dependentCell.Evaluate(visitedCells);
+            }
+
+            visitedCells.Remove(this);
         }
     }
 }

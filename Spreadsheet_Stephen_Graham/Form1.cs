@@ -5,13 +5,8 @@
 namespace Spreadsheet_Stephen_Graham
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Data;
     using System.Drawing;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using SpreadsheetEngine;
 
@@ -148,18 +143,37 @@ namespace Spreadsheet_Stephen_Graham
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
 
             if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
             {
+                Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
                 cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            }
-            else
-            {
-                cell.Text = string.Empty;
+
+                if (cell.Dependents != null)
+                {
+                    // Notify dependents about the change
+                    foreach (Cell dependentCell in cell.Dependents)
+                    {
+                        dependentCell.Evaluate();
+                    }
+                }
+
+                // Update the DataGridView cell value
+                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
             }
 
-            this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+            //Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
+
+            //if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            //{
+            //    cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            //}
+            //else
+            //{
+            //    cell.Text = string.Empty;
+            //}
+
+            //this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
         }
     }
 }

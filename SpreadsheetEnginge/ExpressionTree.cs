@@ -192,16 +192,22 @@ namespace SpreadsheetEngine
                     }
 
                     // creates variable node.
-                    // TODO: throw exception if variable has no value.
-                    VariableNode node = new VariableNode();
-                    node.Name = s.Substring(a, i + 1 - a);
-                    if (variableDict.ContainsKey(node.Name) == false)
+                    try
                     {
-                        variableDict.Add(node.Name, 0);
-                    }
+                        VariableNode node = new VariableNode();
+                        node.Name = s.Substring(a, i + 1 - a);
 
-                    this.postFixList.Add(node);
-                    i++;
+                        if (variableDict.ContainsKey(node.Name) == false)
+                        {
+                            throw new NullReferenceException(string.Format("Variable {0}'s value is unknown", node.Name));
+                        }
+
+                        this.postFixList.Add(node);
+                        i++;
+                    }
+                    catch (NullReferenceException)
+                    {
+                    }
                 }
             }
 
@@ -263,6 +269,16 @@ namespace SpreadsheetEngine
             }
 
             this.root = this.nodeStack.Pop();
+        }
+
+        private void CreateSpreadsheetVariables()
+        {
+
+            foreach (string cellName in variableDict.Keys)
+            {
+                //Cell cell = new Cell[];
+                variableDict[cellName] = double.Parse(cell.Value);
+            }
         }
     }
 }

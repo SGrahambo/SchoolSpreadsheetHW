@@ -152,5 +152,27 @@ namespace SpreadsheetEngine.Tests
 
             Assert.That(this.cells[0, 0].Value, Is.EqualTo(string.Empty));
         }
+
+        [TestCase(0, 0, "A1")]
+        [TestCase(0, 1, "A2")]
+        [TestCase(1, 0, "B1")]
+        [TestCase(1, 1, "B2")]
+        [TestCase(2, 0, "C1")]
+        [TestCase(2, 1, "C2")]
+        public void CellNameTest(int col, int row, string name)
+        {
+            int columns = 3;
+            int rows = 2;
+            this.cells = new Cell[columns, rows];
+            for (int iColumn = 0; iColumn < columns; iColumn++)
+            {
+                for (int iRow = 0; iRow < rows; iRow++)
+                {
+                    this.cells[iColumn, iRow] = new CellNonAbstract(iColumn, iRow);
+                }
+            }
+
+            Assert.That(this.cells[col, row].CellName, Is.EqualTo(name));
+        }
     }
 }
