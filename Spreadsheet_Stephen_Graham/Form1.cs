@@ -148,15 +148,18 @@ namespace Spreadsheet_Stephen_Graham
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
+
             if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
             {
-                this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Value;
+                cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             }
             else
             {
-                this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex).Text = string.Empty;
+                cell.Text = string.Empty;
             }
+
+            this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
         }
     }
 }
