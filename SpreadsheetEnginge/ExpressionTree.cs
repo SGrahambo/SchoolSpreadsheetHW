@@ -277,7 +277,7 @@ namespace SpreadsheetEngine
             foreach (string cellName in variableDict.Keys)
             {
                 //Cell cell = new Cell[];
-                variableDict[cellName] = double.Parse(cell.Value);
+                //variableDict[cellName] = double.Parse(cell.Value);
             }
         }
     }
