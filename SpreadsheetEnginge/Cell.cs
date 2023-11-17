@@ -17,6 +17,7 @@ namespace SpreadsheetEngine
     /// </summary>
     public abstract class Cell : INotifyPropertyChanged
     {
+        private uint bgColor;
         private string text = string.Empty;
         private string value = string.Empty;
         private List<Cell> dependents = new List<Cell>();
@@ -42,6 +43,9 @@ namespace SpreadsheetEngine
             set;
         }
 
+        /// <summary>
+        /// Gets cell name generated from row/column index. ie [0,0] = "A1".
+        /// </summary>
         public string CellName
         {
             get
@@ -97,11 +101,42 @@ namespace SpreadsheetEngine
             }
         }
 
+        /// <summary>
+        /// Gets or sets the background color of a cell.
+        /// </summary>
+        public uint BGColor
+        {
+            get
+            {
+                return this.bgColor;
+            }
+
+            set
+            {
+                if (this.bgColor == value)
+                {
+                    return;
+                }
+                else
+                {
+                    this.bgColor = value;
+                    this.OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets list of cells dependent on this cell.
+        /// </summary>
         public List<Cell> Dependents
         {
             get { return this.dependents; }
         }
 
+        /// <summary>
+        /// Adds a cell to list of dependant cells.
+        /// </summary>
+        /// <param name="dependentCell"> Cell. </param>
         public void AddDependent(Cell dependentCell)
         {
             if (!this.dependents.Contains(dependentCell))
@@ -110,19 +145,19 @@ namespace SpreadsheetEngine
             }
         }
 
+        /// <summary>
+        /// Removes a cell from list of dependant cells.
+        /// </summary>
+        /// <param name="dependentCell"> Cell. </param>
         public void RemoveDependent(Cell dependentCell)
         {
             this.dependents.Remove(dependentCell);
         }
 
         /// <summary>
-        /// broadcasts the propertyChanged event with the properies name.
+        /// Evaluates all dependant cells.
         /// </summary>
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        /// <param name="visitedCells"> dictionary of visited cells to prevent loop. </param>
         public void Evaluate(Dictionary<Cell, bool> visitedCells = null)
         {
             if (visitedCells == null)
@@ -147,6 +182,14 @@ namespace SpreadsheetEngine
             }
 
             visitedCells.Remove(this);
+        }
+
+        /// <summary>
+        /// broadcasts the propertyChanged event with the properies name.
+        /// </summary>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

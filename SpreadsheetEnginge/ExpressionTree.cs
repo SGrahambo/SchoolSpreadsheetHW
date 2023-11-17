@@ -205,7 +205,7 @@ namespace SpreadsheetEngine
                         this.postFixList.Add(node);
                         i++;
                     }
-                    catch (NullReferenceException)
+                    catch
                     {
                     }
                 }
@@ -273,11 +273,10 @@ namespace SpreadsheetEngine
 
         private void CreateSpreadsheetVariables()
         {
-
             foreach (string cellName in variableDict.Keys)
             {
-                //Cell cell = new Cell[];
-                //variableDict[cellName] = double.Parse(cell.Value);
+                // Cell cell = new Cell[];
+                // variableDict[cellName] = double.Parse(cell.Value);
             }
         }
     }

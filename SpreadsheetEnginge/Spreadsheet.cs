@@ -82,6 +82,7 @@ namespace SpreadsheetEngine
                 for (int iRow = 0; iRow < this.numRows; iRow++)
                 {
                     this.cells[iColumn, iRow].Text = string.Empty;
+                    this.cells[iColumn, iRow].BGColor = 0xFFFFFFFF;
                     this.cells[iColumn, iRow].PropertyChanged += this.CellPropertyChangedMethod;
                 }
             }
@@ -117,7 +118,7 @@ namespace SpreadsheetEngine
                 {
                     this.Evaluate(cell);
 
-                    /*string columnStr = string.Empty;
+                    string columnStr = string.Empty;
                     string rowStr = string.Empty;
 
                     // gets cell index from cell text
@@ -146,7 +147,7 @@ namespace SpreadsheetEngine
                         iColumn = char.ToUpper(columnStr[0]) - 65;
                     }
 
-                    cell.Value = this.GetCell(iColumn, iRow).Value;*/
+                    cell.Value = this.GetCell(iColumn, iRow).Value;
                 }
                 else
                 {
@@ -156,13 +157,16 @@ namespace SpreadsheetEngine
 
             // I think this informs other referencing cells that this cells value was changed if I follow the logic right.
             this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
+
+            if (e.PropertyName == "BGColor")
+            {
+                this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("BGColor"));
+            }
         }
 
         private void Evaluate(Cell cell)
         {
             ExpressionTree expressionTree = new ExpressionTree(cell.Text.Substring(1));
-
-
 
             cell.Value = expressionTree.Evaluate().ToString();
         }

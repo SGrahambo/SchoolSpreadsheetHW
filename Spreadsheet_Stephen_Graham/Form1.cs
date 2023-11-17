@@ -5,6 +5,7 @@
 namespace Spreadsheet_Stephen_Graham
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
@@ -16,6 +17,8 @@ namespace Spreadsheet_Stephen_Graham
     public partial class Form1 : Form
     {
         private Spreadsheet spreadsheet = new Spreadsheet(100, 50);
+        private Stack<ICommand> undos = new Stack<ICommand>();
+        private Stack<ICommand> redos = new Stack<ICommand>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
@@ -134,6 +137,11 @@ namespace Spreadsheet_Stephen_Graham
             {
                 this.dataGridView1.Rows[cell.ColumnIndex].Cells[cell.RowIndex].Value = cell.Value;
             }
+
+            if (e.PropertyName == "BGColor")
+            {
+                this.dataGridView1.Rows[cell.RowIndex].Cells[cell.ColumnIndex].Style.BackColor = Color.FromArgb((int)cell.BGColor);
+            }
         }
 
         private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -143,11 +151,13 @@ namespace Spreadsheet_Stephen_Graham
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-
             if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
             {
                 Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
                 cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                this.PushUndoText(cell.Text, this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex], "Changed Text");
+                this.undoToolStripMenuItem.Enabled = true;
+                this.undoToolStripMenuItem.Text = "Undo Changed Text";
 
                 if (cell.Dependents != null)
                 {
@@ -162,18 +172,83 @@ namespace Spreadsheet_Stephen_Graham
                 this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
             }
 
-            //Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
+            // Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
 
-            //if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
-            //{
+            // if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            // {
             //    cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            //}
-            //else
-            //{
+            // }
+            // else
+            // {
             //    cell.Text = string.Empty;
-            //}
+            // }
 
-            //this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+            // this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+        }
+
+        private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog myDialog = new ColorDialog();
+
+            // Keeps the user from selecting a custom color.
+            myDialog.AllowFullOpen = false;
+
+            // Sets the initial color select to the current cell color.
+            myDialog.Color = this.dataGridView1.BackgroundColor;
+
+            // Update the text box color if the user clicks OK
+            if (myDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.PushUndo(myDialog.Color, this.dataGridView1.SelectedCells, "Background Color Selection");
+                this.undoToolStripMenuItem.Enabled = true;
+                this.undoToolStripMenuItem.Text = "Undo Background Colors";
+
+                foreach (DataGridViewCell dataGridCell in this.dataGridView1.SelectedCells)
+                {
+                    Cell cell = this.spreadsheet.GetCell(dataGridCell.RowIndex, dataGridCell.ColumnIndex);
+                    cell.BGColor = (uint)myDialog.Color.ToArgb();
+                }
+            }
+        }
+
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ICommand undoing = this.undos.Pop();
+            this.redos.Push(undoing);
+            this.redoToolStripMenuItem.Text = "Redo " + undoing.IDescription();
+            undoing.UnExecute();
+            this.redoToolStripMenuItem.Enabled = true;
+
+            if (this.undos.Count == 0)
+            {
+                this.undoToolStripMenuItem.Enabled = false;
+                this.undoToolStripMenuItem.Text = "Undo";
+            }
+        }
+
+        private void PushUndo(System.Drawing.Color color, DataGridViewSelectedCellCollection dataGridCell, string description)
+        {
+            this.undos.Push(new ICellBGColor(color, dataGridCell, description));
+        }
+
+        private void PushUndoText(string inText, System.Windows.Forms.DataGridViewCell dataCell, string description)
+        {
+            this.undos.Push(new ICellText(inText, dataCell, description));
+        }
+
+        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ICommand redoing = this.redos.Pop();
+            this.undos.Push(redoing);
+            this.undoToolStripMenuItem.Text = "Undo " + redoing.IDescription();
+            redoing.Execute();
+            this.undoToolStripMenuItem.Enabled = true;
+
+            if (this.redos.Count == 0)
+            {
+                this.redoToolStripMenuItem.Enabled = false;
+                this.redoToolStripMenuItem.Text = "Redo";
+            }
         }
     }
 }

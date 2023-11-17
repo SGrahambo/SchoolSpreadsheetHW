@@ -24,6 +24,7 @@ namespace SpreadsheetEngine
         {
             this.ColumnIndex = column;
             this.RowIndex = row;
+            this.BGColor = 0xFFFFFFFF;
         }
 
         /// <summary>
