@@ -5,15 +5,10 @@
 namespace SpreadsheetEngine
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Xml.Linq;
     using System.Xml;
-    using SpreadsheetEngine;
+    using System.Xml.Linq;
 
     /// <summary>
     /// Spreadsheet engine for spreadsheet application.
@@ -112,7 +107,7 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Returns a cell object by converting the cell name to indexes.
         /// </summary>
-        /// <param name="name"> CellName </param>
+        /// <param name="name"> CellName. </param>
         /// <returns> Cell Object. </returns>
         public Cell GetCell(string name)
         {
@@ -140,6 +135,59 @@ namespace SpreadsheetEngine
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Saves the spreadsheet data to an XML file.
+        /// </summary>
+        /// <param name="outfile"> .xml file. </param>
+        public void Save(Stream outfile)
+        {
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+
+            XmlWriter writeXml = XmlWriter.Create(outfile, settings);
+
+            writeXml.WriteStartElement("spreadsheet");
+
+            foreach (Cell cell in this.cells)
+            {
+                if (cell.Text != string.Empty || cell.Value != string.Empty || cell.BGColor != 4294967295)
+                {
+                    writeXml.WriteStartElement("cell");
+                    writeXml.WriteAttributeString("name", cell.CellName);
+                    writeXml.WriteElementString("text", cell.Text.ToString());
+                    writeXml.WriteElementString("bgcolor", cell.BGColor.ToString("x8"));
+                    writeXml.WriteEndElement();
+                }
+            }
+
+            writeXml.WriteEndElement();
+            writeXml.Close();
+        }
+
+        /// <summary>
+        /// Loads XML file to spreadsheet.
+        /// </summary>
+        /// <param name="infile"> .xml file. </param>
+        public void Load(Stream infile)
+        {
+            XDocument inf = XDocument.Load(infile);
+
+            foreach (XElement label in inf.Root.Elements("cell"))
+            {
+                Cell cell = this.GetCell(label.Attribute("name").Value);
+
+                if (label.Element("text") != null)
+                {
+                    cell.Text = label.Element("text").Value.ToString();
+                }
+
+                if (label.Element("bgcolor") != null)
+                {
+                    cell.BGColor = uint.Parse(label.Element("bgcolor").Value, System.Globalization.NumberStyles.HexNumber);
+                }
+            }
         }
 
         // does something each time a cell is changed.
@@ -198,52 +246,6 @@ namespace SpreadsheetEngine
             {
                 this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("BGColor"));
             }
-        }
-
-        public void Save(Stream outfile)
-        {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-
-            XmlWriter writeXml = XmlWriter.Create(outfile, settings);
-
-            writeXml.WriteStartElement("spreadsheet");
-
-            foreach (Cell cell in this.cells)
-            {
-                if (cell.Text != string.Empty || cell.Value != string.Empty || cell.BGColor != 4294967295)
-                {
-                    writeXml.WriteStartElement("cell");
-                    writeXml.WriteAttributeString("name", cell.CellName);
-                    writeXml.WriteElementString("text", cell.Text.ToString());
-                    writeXml.WriteElementString("bgcolor", cell.BGColor.ToString("x8"));
-                    writeXml.WriteEndElement();
-                }
-            }
-
-            writeXml.WriteEndElement();
-            writeXml.Close();
-        }
-
-        public void Load(Stream infile)
-        {
-            XDocument inf = XDocument.Load(infile);
-
-            foreach (XElement label in inf.Root.Elements("cell"))
-            {
-                Cell cell = this.GetCell(label.Attribute("name").Value);
-
-                if (label.Element("text") != null)
-                {
-                    cell.Text = label.Element("text").Value.ToString();
-                }
-
-                if (label.Element("bgcolor") != null)
-                {
-                    cell.BGColor = uint.Parse(label.Element("bgcolor").Value, System.Globalization.NumberStyles.HexNumber);
-                }
-            }
-
         }
 
         private void Evaluate(Cell cell)

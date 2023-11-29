@@ -246,16 +246,6 @@ namespace Spreadsheet_Stephen_Graham
             }
         }
 
-        private void ClearUndoStack()
-        {
-            this.undos.Clear();
-        }
-
-        private void CleareRedoStack()
-        {
-
-        }
-
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var saveFileDialog = new SaveFileDialog();
