@@ -8,6 +8,7 @@ namespace Spreadsheet_Stephen_Graham
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.IO;
     using System.Windows.Forms;
     using SpreadsheetEngine;
 
@@ -33,12 +34,6 @@ namespace Spreadsheet_Stephen_Graham
         {
             this.CreateColumns(columns);
             this.CreateRows(rows);
-        }
-
-        private void ClearDataGrid()
-        {
-            this.dataGridView1.Columns.Clear();
-            this.dataGridView1.Rows.Clear();
         }
 
         /// <summary>
@@ -249,6 +244,47 @@ namespace Spreadsheet_Stephen_Graham
                 this.redoToolStripMenuItem.Enabled = false;
                 this.redoToolStripMenuItem.Text = "Redo";
             }
+        }
+
+        private void ClearUndoStack()
+        {
+            this.undos.Clear();
+        }
+
+        private void CleareRedoStack()
+        {
+
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML files (*.xml)|*.xml";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream outfile = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+                this.spreadsheet.Save(outfile);
+
+                outfile.Dispose();
+            }
+        }
+
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML files (*.xml)|*.xml";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.spreadsheet.ClearCells();
+                Stream infile = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                this.spreadsheet.Load(infile);
+                Stream file = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                this.spreadsheet.Load(file);
+                file.Dispose();
+            }
+
+            this.undos.Clear();
+            this.redos.Clear();
         }
     }
 }
