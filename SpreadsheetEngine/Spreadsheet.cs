@@ -94,13 +94,13 @@ namespace SpreadsheetEngine
         /// <returns>The Cell Object.</returns>
         public Cell GetCell(int iColumn, int iRow)
         {
-            if ((iRow < this.numRows && iRow >= 0) && (iColumn < this.numColumns && iColumn >= 0))
+            if (this.IsValidCellIndex(iColumn, iRow))
             {
                 return this.cells[iColumn, iRow];
             }
             else
             {
-                return null;
+                throw new ArgumentException("Invalid cell reference");
             }
         }
 
@@ -111,30 +111,20 @@ namespace SpreadsheetEngine
         /// <returns> Cell Object. </returns>
         public Cell GetCell(string name)
         {
-            char column = name[0];
+            char columnLetter = name[0];
             int row;
-            Cell result;
 
-            if (char.IsLetter(column) == false)
+            if (!char.IsLetter(columnLetter) || !int.TryParse(name.Substring(1), out row))
             {
-                return null;
+                throw new ArgumentException("Invalid cell reference");
             }
 
-            if (int.TryParse(name.Substring(1), out row) == false)
-            {
-                return null;
-            }
+            return this.GetCell(columnLetter - 'A', row - 1);
+        }
 
-            try
-            {
-                result = this.GetCell(column - 'A', row - 1);
-            }
-            catch
-            {
-                return null;
-            }
-
-            return result;
+        private bool IsValidCellIndex(int iColumn, int iRow)
+        {
+            return iColumn >= 0 && iColumn < this.ColumnCount && iRow >= 0 && iRow < this.RowCount;
         }
 
         /// <summary>

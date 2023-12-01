@@ -146,25 +146,53 @@ namespace Spreadsheet_Stephen_Graham
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex]?.Value != null)
+            try
             {
                 Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
-                cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                this.PushUndoText(cell.Text, this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex], "Changed Text");
-                this.undoToolStripMenuItem.Enabled = true;
-                this.undoToolStripMenuItem.Text = "Undo Changed Text";
 
-                if (cell.Dependents != null)
+                if (cell == this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex))
                 {
-                    // Notify dependents about the change
-                    foreach (Cell dependentCell in cell.Dependents)
-                    {
-                        dependentCell.Evaluate();
-                    }
+                    throw new SelfReferenceException();
                 }
 
-                // Update the DataGridView cell value
-                this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+                if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex]?.Value != null)
+                {
+                    cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    this.PushUndoText(cell.Text, this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex], "Changed Text");
+                    this.undoToolStripMenuItem.Enabled = true;
+                    this.undoToolStripMenuItem.Text = "Undo Changed Text";
+
+                    if (cell.Dependents != null)
+                    {
+                        // Notify dependents about the change
+                        foreach (Cell dependentCell in cell.Dependents)
+                        {
+                            dependentCell.Evaluate();
+                        }
+                    }
+
+                    // Update the DataGridView cell value
+                    this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException || ex is ArgumentException)
+                {
+                    this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "!(bad reference)";
+                }
+                else if (ex is SelfReferenceException)
+                {
+                    this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "!(self reference)";
+                }
+                else if (ex is CircularReferenceException)
+                {
+                    this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "!(circular reference)";
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

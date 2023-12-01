@@ -164,7 +164,7 @@ namespace SpreadsheetEngine
 
                 double number;
 
-                // create ConstantNode if next character is a number and tryparse substring before next operator.
+                // create ConstantNode if next character is a number and tryParse substring before next operator.
                 if (double.TryParse(s[i].ToString(), out number))
                 {
                     // Sets i to index before next operator.
@@ -205,7 +205,7 @@ namespace SpreadsheetEngine
                         this.postFixList.Add(node);
                         i++;
                     }
-                    catch
+                    catch (NullReferenceException)
                     {
                     }
                 }

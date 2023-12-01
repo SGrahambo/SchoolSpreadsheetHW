@@ -134,7 +134,7 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Adds a cell to list of dependant cells.
+        /// Adds a cell to list of dependent cells.
         /// </summary>
         /// <param name="dependentCell"> Cell. </param>
         public void AddDependent(Cell dependentCell)
@@ -155,7 +155,7 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Evaluates all dependant cells.
+        /// Evaluates all dependent cells.
         /// </summary>
         /// <param name="visitedCells"> dictionary of visited cells to prevent loop. </param>
         public void Evaluate(Dictionary<Cell, bool> visitedCells = null)
@@ -169,7 +169,7 @@ namespace SpreadsheetEngine
             if (visitedCells.ContainsKey(this))
             {
                 // Circular reference detected, set value to error
-                this.Value = "ERROR: Circular Reference";
+                this.Value = "!(circular reference)";
                 return;
             }
 
