@@ -146,7 +146,7 @@ namespace Spreadsheet_Stephen_Graham
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
+            if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex]?.Value != null)
             {
                 Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
                 cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
@@ -166,19 +166,6 @@ namespace Spreadsheet_Stephen_Graham
                 // Update the DataGridView cell value
                 this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
             }
-
-            // Cell cell = this.spreadsheet.GetCell(e.ColumnIndex, e.RowIndex);
-
-            // if (this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] != null)
-            // {
-            //    cell.Text = this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            // }
-            // else
-            // {
-            //    cell.Text = string.Empty;
-            // }
-
-            // this.dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = cell.Value;
         }
 
         private void BackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
